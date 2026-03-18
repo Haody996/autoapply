@@ -77,7 +77,7 @@ const worker = new Worker(
       data: {
         userId,
         jobLinks: matches.map((m) => m.link),
-        topMatches: matches,
+        topMatches: matches as any,
       },
     })
 
