@@ -2,6 +2,10 @@
 set -e
 cd "$(dirname "$0")"
 
+echo "→ Pushing to GitHub..."
+git add -A && git diff --cached --quiet || git commit -m "Deploy $(date '+%Y-%m-%d %H:%M')"
+git push
+
 echo "→ Building containers..."
 docker compose build
 
