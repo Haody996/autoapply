@@ -127,13 +127,16 @@ export default function Matches() {
     enabled: !!digestJobId,
     refetchInterval: (query) => {
       const state = query.state.data?.state
-      if (state === 'completed' || state === 'failed') {
-        if (state === 'completed') queryClient.invalidateQueries({ queryKey: ['matches'] })
-        return false
-      }
+      if (state === 'completed' || state === 'failed') return false
       return 2000
     },
   })
+
+  useEffect(() => {
+    if (digestProgress?.state === 'completed') {
+      queryClient.invalidateQueries({ queryKey: ['matches'] })
+    }
+  }, [digestProgress?.state])
 
   const { data, isLoading } = useQuery<{ history: MatchRun[] }>({
     queryKey: ['matches'],
