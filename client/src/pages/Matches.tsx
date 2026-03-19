@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { ExternalLink, Sparkles, MapPin, Building2, CalendarDays, Inbox, Send, CheckCircle, Settings2, ChevronDown, ChevronUp } from 'lucide-react'
 import api from '../lib/api'
@@ -41,6 +41,8 @@ export default function Matches() {
     emailEnabled: false,
   })
 
+  const prefsLoaded = useRef(false)
+
   useQuery({
     queryKey: ['preferences'],
     queryFn: async () => {
@@ -53,9 +55,19 @@ export default function Matches() {
           emailEnabled: data.preference.emailEnabled ?? false,
         })
       }
+      prefsLoaded.current = true
       return data
     },
   })
+
+  // Auto-save keywords and location 800ms after the user stops typing
+  useEffect(() => {
+    if (!prefsLoaded.current) return
+    const t = setTimeout(() => {
+      api.put('/preferences', prefForm).catch(() => {})
+    }, 800)
+    return () => clearTimeout(t)
+  }, [prefForm.keywords, prefForm.location])
 
   const savePreferences = useMutation({
     mutationFn: () => api.put('/preferences', prefForm),
