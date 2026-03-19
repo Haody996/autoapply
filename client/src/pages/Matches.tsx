@@ -149,7 +149,7 @@ export default function Matches() {
   const isRunning = !!digestJobId && digestProgress?.state !== 'completed' && digestProgress?.state !== 'failed'
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-4 md:p-8 max-w-4xl">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -276,7 +276,7 @@ export default function Matches() {
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-xs font-medium text-slate-700 mb-1.5">Job Keywords</label>
                 <AutocompleteInput

@@ -187,7 +187,7 @@ export default function Profile() {
   const answers = data?.answers || []
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-4 md:p-8 max-w-3xl">
       <h1 className="text-2xl font-bold text-slate-900 mb-8">Your Profile</h1>
 
       {/* Resume Upload */}
@@ -255,7 +255,7 @@ export default function Profile() {
             </span>
           )}
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {[
             { label: 'First Name', key: 'firstName' },
             { label: 'Last Name', key: 'lastName' },
@@ -304,7 +304,7 @@ export default function Profile() {
         <p className="text-sm text-slate-500 mb-4">
           Required for auto-applying to LinkedIn jobs with Easy Apply. Credentials are stored locally and only used by the apply worker.
         </p>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-medium text-slate-700 mb-1.5">LinkedIn Email</label>
             <input
@@ -359,7 +359,7 @@ export default function Profile() {
           resume and search preferences.
         </p>
 
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-xs font-medium text-slate-700 mb-1.5">Job Keywords</label>
             <AutocompleteInput
