@@ -11,7 +11,7 @@ export interface JobMatch {
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
-const MODELS = ['gemini-2.5-flash-preview-05-20', 'gemini-2.0-flash']
+const MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash-001']
 
 const GENERATION_CONFIG: GenerationConfig = {
   responseMimeType: 'application/json',
