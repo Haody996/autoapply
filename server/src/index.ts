@@ -33,6 +33,9 @@ app.use('/api/matches', matchesRoutes)
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }))
 
+// Return JSON 404 for any unmatched /api/* route — prevents index.html being served as JSON
+app.use('/api', (_req, res) => res.status(404).json({ error: 'API route not found' }))
+
 // Serve React build in production — client/dist sits two levels above dist/index.js
 if (process.env.NODE_ENV === 'production') {
   const clientDist = path.resolve(__dirname, '../../client/dist')
