@@ -6,10 +6,15 @@ import prisma from '../lib/prisma'
 
 const JOBS_PER_PREFERENCE = 10
 
+function log(msg: string) {
+  console.log(`[job-refresh] ${new Date().toISOString()} ${msg}`)
+}
+
 const worker = new Worker(
   'job-refresh',
   async () => {
-    console.log('[job-refresh] Starting weekly job refresh...')
+    log('━━━ Weekly job refresh started ━━━')
+    const startedAt = Date.now()
 
     // Collect all unique keyword+location pairs from user preferences
     const prefs = await prisma.jobPreference.findMany({
@@ -17,7 +22,6 @@ const worker = new Worker(
       select: { keywords: true, location: true },
     })
 
-    // Deduplicate preference combinations
     const seen = new Set<string>()
     const uniquePrefs = prefs.filter((p) => {
       const key = `${p.keywords.toLowerCase()}|${p.location.toLowerCase()}`
@@ -26,30 +30,35 @@ const worker = new Worker(
       return true
     })
 
+    log(`Found ${uniquePrefs.length} unique preference(s) across ${prefs.length} user(s)`)
+
     if (uniquePrefs.length === 0) {
-      console.log('[job-refresh] No user preferences set — skipping')
+      log('No user preferences set — skipping')
       return
     }
 
+    let totalFetched = 0
     let totalUpserted = 0
+    let totalFailed = 0
 
-    for (const pref of uniquePrefs) {
+    for (let i = 0; i < uniquePrefs.length; i++) {
+      const pref = uniquePrefs[i]
+      const query = pref.location ? `${pref.keywords} in ${pref.location}` : pref.keywords
+      log(`[${i + 1}/${uniquePrefs.length}] Fetching: "${query}"`)
+
       try {
-        const query = pref.location
-          ? `${pref.keywords} in ${pref.location}`
-          : pref.keywords
-
-        const rawJobs = await searchJobs({
-          q: query,
-          num_pages: 1,
-          date_posted: 'week',
-        })
-
+        const rawJobs = await searchJobs({ q: query, num_pages: 1, date_posted: 'week' })
         const slice = rawJobs.slice(0, JOBS_PER_PREFERENCE)
+        totalFetched += slice.length
+        log(`  → ${rawJobs.length} results from API, taking top ${slice.length}`)
+
+        let newCount = 0
+        let updatedCount = 0
 
         await Promise.all(
-          slice.map((j) =>
-            prisma.job.upsert({
+          slice.map(async (j) => {
+            const existing = await prisma.job.findUnique({ where: { externalId: j.job_id }, select: { id: true } })
+            await prisma.job.upsert({
               where: { externalId: j.job_id },
               update: { fetchedAt: new Date() },
               create: {
@@ -63,32 +72,29 @@ const worker = new Worker(
                 salary: formatSalary(j),
                 jobType: j.job_employment_type,
                 isRemote: j.job_is_remote,
-                postedAt: j.job_posted_at_datetime_utc
-                  ? new Date(j.job_posted_at_datetime_utc)
-                  : null,
+                postedAt: j.job_posted_at_datetime_utc ? new Date(j.job_posted_at_datetime_utc) : null,
               },
             })
-          )
+            if (existing) updatedCount++ else newCount++
+          })
         )
 
         totalUpserted += slice.length
-        console.log(`[job-refresh] "${query}" — ${slice.length} jobs upserted`)
-      } catch (err) {
-        console.error(`[job-refresh] Failed for "${pref.keywords}":`, err)
+        log(`  ✓ ${newCount} new, ${updatedCount} updated`)
+      } catch (err: any) {
+        totalFailed++
+        log(`  ✗ Failed: ${err?.message || err}`)
       }
     }
 
-    console.log(`[job-refresh] Done — ${totalUpserted} total jobs upserted`)
+    const elapsed = ((Date.now() - startedAt) / 1000).toFixed(1)
+    log(`━━━ Done in ${elapsed}s — ${totalFetched} fetched, ${totalUpserted} upserted, ${totalFailed} failed ━━━`)
   },
   { connection, concurrency: 1 }
 )
 
-worker.on('failed', (job, err) => {
-  console.error('[job-refresh] Job failed:', err)
-})
-
-worker.on('error', (err) => {
-  console.error('[job-refresh] Worker error:', err)
-})
+worker.on('active', () => log('Worker picked up a job'))
+worker.on('failed', (_job, err) => log(`Job failed: ${err?.message}`))
+worker.on('error', (err) => log(`Worker error: ${err?.message}`))
 
 export default worker
