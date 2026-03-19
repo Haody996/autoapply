@@ -75,7 +75,7 @@ const worker = new Worker(
     const freshJobs = scraped.filter((j) => !sentLinks.has(j.link))
     const jobsToMatch = freshJobs.length >= 5 ? freshJobs : scraped
 
-    await progress(job, 'AI matching your resume…', 60, `Analysing ${jobsToMatch.length} jobs with Claude`)
+    await progress(job, 'AI matching your resume…', 60, `Analysing ${jobsToMatch.length} jobs with AI`)
 
     let matches
     try {
