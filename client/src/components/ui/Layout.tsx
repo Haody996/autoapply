@@ -10,31 +10,50 @@ const navItems = [
   { to: '/profile', label: 'Profile', icon: User },
 ]
 
-// Claw gripping a suitcase
+// Crab claw overlaying a suitcase
 function JobsClawIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Briefcase body */}
-      <rect x="2" y="12" width="20" height="10" rx="2" fill="#4f46e5" />
+      <rect x="2" y="13" width="20" height="9" rx="2" fill="#4f46e5" />
       {/* Briefcase handle */}
-      <path d="M9 12V10.5C9 9.4 9.9 8.5 11 8.5H13C14.1 8.5 15 9.4 15 10.5V12" stroke="#4f46e5" strokeWidth="1.8" fill="none" />
-      {/* Briefcase centre line */}
-      <line x1="2" y1="17" x2="22" y2="17" stroke="#a5b4fc" strokeWidth="1.2" />
+      <path d="M9 13V11.5C9 10.4 9.9 9.5 11 9.5H13C14.1 9.5 15 10.4 15 11.5V13" stroke="#6366f1" strokeWidth="1.8" fill="none" strokeLinejoin="round" />
+      {/* Briefcase centre stripe */}
+      <line x1="2" y1="17.5" x2="22" y2="17.5" stroke="#a5b4fc" strokeWidth="1" />
       {/* Clasp */}
-      <rect x="10.5" y="15.5" width="3" height="3" rx="0.8" fill="#a5b4fc" />
-      {/* Claw — palm base sitting on top of briefcase */}
-      <ellipse cx="12" cy="11.5" rx="3.5" ry="1.8" fill="#6366f1" />
-      {/* Three claw fingers curling downward and gripping */}
-      {/* Left finger */}
-      <path d="M8.8 11 C7.5 9.5 7 7.5 8 6 C8.6 5 9.5 5.2 9.8 6.2 C10 7 9.5 8 9.2 9.5" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" fill="none" />
-      {/* Middle finger */}
-      <path d="M12 10.8 C12 9 11.8 7 12.5 5.5 C13 4.5 14 4.6 14.1 5.8 C14.2 7 13.5 8.5 13 10" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" fill="none" />
-      {/* Right finger */}
-      <path d="M15.2 11 C16.2 9.5 17 7.5 16.2 6 C15.7 5 14.8 5.2 14.5 6.2 C14.2 7.2 14.8 8.5 15 10" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" fill="none" />
-      {/* Claw tips */}
-      <path d="M8 6 C7.2 5.2 7 4.2 7.8 3.8" stroke="#a5b4fc" strokeWidth="1.4" strokeLinecap="round" fill="none" />
-      <path d="M12.5 5.5 C12.3 4.5 12.6 3.5 13.5 3.4" stroke="#a5b4fc" strokeWidth="1.4" strokeLinecap="round" fill="none" />
-      <path d="M16.2 6 C17 5.2 17.4 4.2 16.6 3.7" stroke="#a5b4fc" strokeWidth="1.4" strokeLinecap="round" fill="none" />
+      <rect x="10.8" y="16" width="2.4" height="3" rx="0.6" fill="#c7d2fe" />
+
+      {/* Crab claw — lower pincer (fixed jaw) */}
+      <path
+        d="M5 13 C4 11 3.5 9 5 7.5 C6 6.5 7.5 6.8 8 8 C8.5 9 8 10.5 7.5 12"
+        stroke="#3730a3" strokeWidth="2.2" strokeLinecap="round" fill="none"
+      />
+      {/* Crab claw — upper pincer (moving jaw) */}
+      <path
+        d="M5 13 C4.5 11.5 5 9.5 7 8.5 C8.5 7.8 9.5 8.5 9.5 10 C9.5 11.2 8.5 12 7.5 12"
+        stroke="#4f46e5" strokeWidth="2.2" strokeLinecap="round" fill="none"
+      />
+      {/* Claw tip nip point */}
+      <circle cx="7.5" cy="12" r="0.8" fill="#818cf8" />
+
+      {/* Crab claw arm connecting to suitcase top-left */}
+      <path
+        d="M5 13 C5.5 13 6 13 7 13"
+        stroke="#3730a3" strokeWidth="2" strokeLinecap="round" fill="none"
+      />
+
+      {/* Second (right) crab claw — lower pincer */}
+      <path
+        d="M19 13 C20 11 20.5 9 19 7.5 C18 6.5 16.5 6.8 16 8 C15.5 9 16 10.5 16.5 12"
+        stroke="#3730a3" strokeWidth="2.2" strokeLinecap="round" fill="none"
+      />
+      {/* Second claw — upper pincer */}
+      <path
+        d="M19 13 C19.5 11.5 19 9.5 17 8.5 C15.5 7.8 14.5 8.5 14.5 10 C14.5 11.2 15.5 12 16.5 12"
+        stroke="#4f46e5" strokeWidth="2.2" strokeLinecap="round" fill="none"
+      />
+      {/* Right claw tip */}
+      <circle cx="16.5" cy="12" r="0.8" fill="#818cf8" />
     </svg>
   )
 }
