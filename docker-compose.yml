@@ -49,6 +49,22 @@ services:
       - redis
     restart: unless-stopped
 
+  job-refresh-worker:
+    build:
+      context: .
+      args:
+        VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID}
+    command: node dist/workers/job-refresh-worker.js
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://autoapply:${POSTGRES_PASSWORD:-changeme123}@postgres:5432/autoapply
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   uploads:
