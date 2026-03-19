@@ -66,9 +66,9 @@ export default function Matches() {
     if (!prefsLoaded.current) return
     const t = setTimeout(() => {
       api.put('/preferences', prefForm).catch(() => {})
-    }, 800)
+    }, 400)
     return () => clearTimeout(t)
-  }, [prefForm.keywords, prefForm.location])
+  }, [prefForm.keywords, prefForm.location, prefForm.emailEnabled, prefForm.dailyEmailTime])
 
   const { data: profileData } = useQuery({
     queryKey: ['profile'],
