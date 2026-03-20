@@ -17,9 +17,8 @@ const queryClient = new QueryClient({
 })
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
-  const location = useLocation()
   if (!isAuthenticated()) {
-    return <Navigate to="/login" state={{ backgroundLocation: location }} replace />
+    return <Navigate to="/login" state={{ backgroundLocation: { pathname: '/' } }} replace />
   }
   return <>{children}</>
 }

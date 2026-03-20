@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { X } from 'lucide-react'
 import api from '../lib/api'
 import { setToken, setUser } from '../lib/auth'
 import GoogleSignInButton from '../components/ui/GoogleSignInButton'
@@ -47,9 +48,14 @@ export default function Login() {
         className="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-md p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-2 mb-8">
-          <img src="/icon.png" alt="JobsClaw" className="w-7 h-7" />
-          <span className="font-bold text-2xl text-slate-900">JobsClaw</span>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-2">
+            <img src="/icon.png" alt="JobsClaw" className="w-7 h-7" />
+            <span className="font-bold text-2xl text-slate-900">JobsClaw</span>
+          </div>
+          <button onClick={dismiss} className="text-slate-400 hover:text-slate-600 transition-colors">
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         <h1 className="text-xl font-semibold text-slate-900 mb-1">Welcome back</h1>
