@@ -1,7 +1,6 @@
 import { MapPin, Building2, Clock, Wifi, ExternalLink } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import MatchScoreBadge from './MatchScoreBadge'
-import ApplyButton from '../applications/ApplyButton'
 import Badge from '../ui/Badge'
 
 export interface Job {
@@ -87,13 +86,15 @@ export default function JobCard({ job, applyMode, onApplied }: JobCardProps) {
 
       <div className="flex items-center justify-between gap-2">
         <MatchScoreBadge score={job.matchScore} />
-        <ApplyButton
-          jobId={job.id}
-          jobUrl={job.url}
-          applyMode={applyMode}
-          existingApplication={job.application}
-          onApplied={(appId) => onApplied?.(job.id, appId)}
-        />
+        <a
+          href={job.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+        >
+          <ExternalLink className="w-4 h-4" />
+          Apply
+        </a>
       </div>
     </div>
   )
