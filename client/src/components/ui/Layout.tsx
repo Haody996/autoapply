@@ -10,7 +10,7 @@ const navItems = [
   { to: '/profile', label: 'Profile', icon: User },
 ]
 
-const adminNavItem = { to: '/admin', label: 'Admin', icon: ShieldCheck }
+const adminNavItem = { to: '/admin', label: 'Admin', icon: ShieldCheck, exact: false }
 
 function JobsClawIcon({ className }: { className?: string }) {
   return <img src="/icon.png" alt="JobsClaw" className={className} />
