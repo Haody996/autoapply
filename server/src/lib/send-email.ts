@@ -22,8 +22,8 @@ function buildEmailHtml(
       return `
       <tr>
         <td style="padding:20px 24px; border-bottom:1px solid #e2e8f0;">
-          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
-            <div style="flex:1; min-width:0;">
+          <table style="width:100%; border-collapse:collapse;"><tr>
+            <td style="vertical-align:top;">
               <p style="margin:0 0 2px; font-size:15px; font-weight:700; color:#1e293b;">
                 ${i + 1}.&nbsp;
                 <a href="${job.link}" style="color:#4f46e5; text-decoration:none;">${job.title}</a>
@@ -34,9 +34,9 @@ function buildEmailHtml(
               <p style="margin:0; font-size:14px; color:#475569; line-height:1.5;">
                 ${job.match_rationale}
               </p>
-            </div>
-            ${score ? `<div style="flex-shrink:0; background:${scoreBg}; color:${scoreColor}; font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px; white-space:nowrap;">${score} / 10</div>` : ''}
-          </div>
+            </td>
+            ${score ? `<td style="vertical-align:top; text-align:right; white-space:nowrap; padding-left:12px; width:1%;"><span style="display:inline-block; background:${scoreBg}; color:${scoreColor}; font-size:12px; font-weight:700; padding:3px 10px; border-radius:20px;">${score} / 10</span></td>` : ''}
+          </tr></table>
         </td>
       </tr>`
     })
