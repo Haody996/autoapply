@@ -11,6 +11,7 @@ interface JobMatch {
   link: string
   location: string
   match_rationale: string
+  compatibility_score?: number
 }
 
 interface MatchRun {
@@ -385,17 +386,30 @@ export default function Matches() {
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <a
-                        href={job.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex items-center gap-1.5 mb-1"
-                      >
-                        <h3 className="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
-                          {job.title}
-                        </h3>
-                        <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-500 flex-shrink-0 transition-colors" />
-                      </a>
+                      <div className="flex items-start justify-between gap-3 mb-1">
+                        <a
+                          href={job.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group flex items-center gap-1.5"
+                        >
+                          <h3 className="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
+                            {job.title}
+                          </h3>
+                          <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-500 flex-shrink-0 transition-colors" />
+                        </a>
+                        {job.compatibility_score != null && (
+                          <span className={`flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full ${
+                            job.compatibility_score >= 85
+                              ? 'bg-green-100 text-green-700'
+                              : job.compatibility_score >= 65
+                              ? 'bg-yellow-100 text-yellow-700'
+                              : 'bg-slate-100 text-slate-600'
+                          }`}>
+                            {job.compatibility_score}% match
+                          </span>
+                        )}
+                      </div>
 
                       <div className="flex items-center gap-3 mb-3">
                         <span className="flex items-center gap-1 text-sm text-slate-600 font-medium">

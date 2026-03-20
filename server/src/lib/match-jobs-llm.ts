@@ -7,6 +7,7 @@ export interface JobMatch {
   link: string
   location: string
   match_rationale: string
+  compatibility_score: number
 }
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
@@ -30,8 +31,9 @@ const GENERATION_CONFIG: GenerationConfig = {
             link: { type: SchemaType.STRING },
             location: { type: SchemaType.STRING },
             match_rationale: { type: SchemaType.STRING },
+            compatibility_score: { type: SchemaType.INTEGER },
           },
-          required: ['company', 'title', 'link', 'location', 'match_rationale'],
+          required: ['company', 'title', 'link', 'location', 'match_rationale', 'compatibility_score'],
         },
       },
     },
@@ -41,7 +43,8 @@ const GENERATION_CONFIG: GenerationConfig = {
 
 const SYSTEM_INSTRUCTION =
   "You are an expert technical recruiter. Analyze the candidate's resume and select the top 5 best-matching jobs from the provided list. " +
-  'For each match, write a punchy 1-2 sentence match_rationale explaining exactly why this job fits the candidate.'
+  'For each match, write a punchy 1-2 sentence match_rationale explaining exactly why this job fits the candidate. ' +
+  'Also provide a compatibility_score from 0 to 100 representing how well the candidate matches the job requirements.'
 
 export async function matchJobsToResume(
   resumeText: string,
