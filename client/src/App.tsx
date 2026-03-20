@@ -10,6 +10,7 @@ import Matches from './pages/Matches'
 import Profile from './pages/Profile'
 import Applications from './pages/Applications'
 import Info from './pages/Info'
+import Admin from './pages/Admin'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +40,7 @@ function AppRoutes() {
           <Route path="matches" element={<PrivateRoute><Matches /></PrivateRoute>} />
           <Route path="profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
           <Route path="applications" element={<PrivateRoute><Applications /></PrivateRoute>} />
+          <Route path="admin" element={<PrivateRoute><Admin /></PrivateRoute>} />
         </Route>
         {/* Direct /login or /register with no background → redirect to home */}
         <Route path="/login" element={<Navigate to="/" replace />} />

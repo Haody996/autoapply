@@ -74,7 +74,7 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
     expiresIn: '7d',
   })
 
-  res.json({ token, user: { id: user.id, email: user.email } })
+  res.json({ token, user: { id: user.id, email: user.email, isAdmin: user.isAdmin } })
 })
 
 // GET /api/auth/me
@@ -90,7 +90,7 @@ router.get('/me', async (req: Request, res: Response): Promise<void> => {
     }
     const user = await prisma.user.findUnique({
       where: { id: payload.userId },
-      select: { id: true, email: true, createdAt: true },
+      select: { id: true, email: true, isAdmin: true, createdAt: true },
     })
     if (!user) {
       res.status(404).json({ error: 'User not found' })
@@ -143,7 +143,7 @@ router.post('/google', async (req: Request, res: Response): Promise<void> => {
       expiresIn: '7d',
     })
 
-    res.json({ token, user: { id: user.id, email: user.email } })
+    res.json({ token, user: { id: user.id, email: user.email, isAdmin: user.isAdmin } })
   } catch (err: any) {
     console.error('[google-auth] Verification failed:', JSON.stringify(err), String(err))
     res.status(401).json({ error: 'Google authentication failed', detail: String(err) })

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom'
-import { LayoutDashboard, FileText, User, LogOut, LogIn, Sparkles, Menu, X } from 'lucide-react'
-import { clearAuth, isAuthenticated } from '../../lib/auth'
+import { LayoutDashboard, FileText, User, LogOut, LogIn, Sparkles, Menu, X, ShieldCheck } from 'lucide-react'
+import { clearAuth, isAuthenticated, isAdmin } from '../../lib/auth'
 
 const navItems = [
   { to: '/matches', label: 'AI Matches', icon: Sparkles },
@@ -9,6 +9,8 @@ const navItems = [
   { to: '/applications', label: 'Applications', icon: FileText },
   { to: '/profile', label: 'Profile', icon: User },
 ]
+
+const adminNavItem = { to: '/admin', label: 'Admin', icon: ShieldCheck }
 
 function JobsClawIcon({ className }: { className?: string }) {
   return <img src="/icon.png" alt="JobsClaw" className={className} />
@@ -18,7 +20,9 @@ export default function Layout() {
   const navigate = useNavigate()
   const location = useLocation()
   const authed = isAuthenticated()
+  const admin = isAdmin()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const allNavItems = admin ? [...navItems, adminNavItem] : navItems
 
   function openLogin() {
     navigate('/login', { state: { backgroundLocation: location } })
@@ -48,7 +52,7 @@ export default function Layout() {
         </div>
 
         <nav className="flex-1 p-4 space-y-1">
-          {navItems.map(({ to, label, icon: Icon, exact }) => (
+          {allNavItems.map(({ to, label, icon: Icon, exact }) => (
             <NavLink key={to} to={to} end={exact} className={navLinkClass}>
               <Icon className="w-4 h-4" />
               {label}
@@ -87,7 +91,7 @@ export default function Layout() {
             </div>
 
             <nav className="flex-1 p-4 space-y-1">
-              {navItems.map(({ to, label, icon: Icon, exact }) => (
+              {allNavItems.map(({ to, label, icon: Icon, exact }) => (
                 <NavLink key={to} to={to} end={exact} className={navLinkClass} onClick={() => setMobileOpen(false)}>
                   <Icon className="w-4 h-4" />
                   {label}
@@ -132,7 +136,7 @@ export default function Layout() {
 
         {/* Mobile bottom tab bar */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex z-30">
-          {navItems.map(({ to, label, icon: Icon, exact }) => (
+          {allNavItems.map(({ to, label, icon: Icon, exact }) => (
             <NavLink
               key={to}
               to={to}
