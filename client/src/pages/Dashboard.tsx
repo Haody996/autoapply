@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { TrendingUp, Send, Clock, CheckCircle, Bot, ExternalLink } from 'lucide-react'
+import { TrendingUp, Send, Clock, CheckCircle } from 'lucide-react'
 import api from '../lib/api'
 import { isAuthenticated } from '../lib/auth'
 import { useApplyMode } from '../lib/apply-mode'
@@ -13,7 +13,7 @@ export default function Dashboard() {
   const navigate = useNavigate()
   const [query, setQuery] = useState('software engineer')
   const [location, setLocation] = useState('Los Angeles')
-  const { mode, setMode } = useApplyMode()
+  const { mode } = useApplyMode()
 
   const { data: jobsData, isLoading: jobsLoading } = useQuery({
     queryKey: ['dashboard-jobs', query, location],
