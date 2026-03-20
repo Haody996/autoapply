@@ -31,7 +31,7 @@ export default function Login() {
       const { data } = await api.post('/auth/login', { email, password })
       setToken(data.token)
       setUser(data.user)
-      navigate('/')
+      navigate('/matches')
     } catch (err: any) {
       setError(err.response?.data?.error || 'Login failed')
     } finally {
@@ -99,7 +99,7 @@ export default function Login() {
           </button>
         </form>
 
-        <GoogleSignInButton onSuccess={() => navigate('/')} onError={setError} />
+        <GoogleSignInButton onSuccess={() => navigate('/matches')} onError={setError} />
 
         <p className="mt-6 text-center text-sm text-slate-500">
           No account?{' '}

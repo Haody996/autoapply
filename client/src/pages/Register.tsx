@@ -31,7 +31,7 @@ export default function Register() {
       const { data } = await api.post('/auth/register', { email, password })
       setToken(data.token)
       setUser(data.user)
-      navigate('/profile')
+      navigate('/matches')
     } catch (err: any) {
       setError(err.response?.data?.error || 'Registration failed')
     } finally {
@@ -102,7 +102,7 @@ export default function Register() {
           </button>
         </form>
 
-        <GoogleSignInButton onSuccess={() => navigate('/profile')} onError={setError} />
+        <GoogleSignInButton onSuccess={() => navigate('/matches')} onError={setError} />
 
         <p className="mt-6 text-center text-sm text-slate-500">
           Already have an account?{' '}

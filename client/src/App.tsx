@@ -34,7 +34,7 @@ function AppRoutes() {
       <Routes location={background ?? location}>
         <Route path="/info" element={<Info />} />
         <Route path="/" element={<Layout />}>
-          <Route index element={isAuthenticated() ? <Navigate to="/matches" replace /> : <Dashboard />} />
+          <Route index element={<Dashboard />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path="matches" element={<PrivateRoute><Matches /></PrivateRoute>} />
           <Route path="profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
