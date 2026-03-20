@@ -109,7 +109,7 @@ export default function Info() {
 
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-500/40 bg-blue-500/10 text-blue-400 text-xs font-medium mb-6">
           <Sparkles className="w-3.5 h-3.5" />
-          Powered by Gemini 2.5 Flash AI
+          Powered by Gemini
         </div>
 
         <h1 className="relative text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] max-w-4xl mb-6">
